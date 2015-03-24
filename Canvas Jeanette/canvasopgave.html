@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Move the ball on the canvas!</title>
+		<meta charset="utf-8"/>
+		<style type="text/css" media="screen">
+   		 #canvas{
+   		 	background:url('canvas-bg.png'); 
+   		 		}
+ 		 </style>
+		<script type="text/javascript">
+			var canvas, ctx;
+			var position = {};
+			
+
+			var render = function(){
+				//clear the entire canvas
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				// draw a circle with positionX
+				ctx.fillStyle = 'purple';
+				ctx.beginPath();
+				ctx.arc(position.x, position.y, 16, 0, Math.PI*2, false);
+				ctx.fill();
+
+				//text
+				ctx.fillStyle = 'yellow';
+				ctx.font = '30px Verdana, sans-serif';
+				ctx.textBaseline = 'top';
+				ctx.textAlign = 'center';
+				ctx.fillText('Move the ball around!', 300, 20);
+			};
+
+			var animate = function(delta){
+				render();
+				//call this function again
+				requestAnimationFrame(animate);
+			};
+
+			var keydown = function(e){
+				switch(e.keyCode){
+					case 37:
+						//left
+						position.x += -10;
+						break;
+					case 38:
+						//up
+						position.y += -10;
+						break;
+					case 39:
+						//right
+						position.x += 10;
+						break;
+					case 40:
+						//down
+						position.y += 10;
+						break;
+					default:
+						break;
+				}
+			};
+
+			window.addEventListener('load', function(){
+				canvas = document.getElementById('canvas');
+				ctx = canvas.getContext('2d');
+
+				//set en initial position
+				position.x = canvas.width/2;
+				position.y = canvas.height/2;
+
+				//add eventlistener for keyboard
+				document.addEventListener('keydown', keydown, false);
+
+				//start animation
+				requestAnimationFrame(animate);
+			}, false);
+
+     </script>
+	</head>
+	<body>
+		<h1>Move the ball on the canvas around with your arrows..</h1>
+		<canvas id="canvas" width="600" height="400"></canvas>
+	</body>
+</html>
